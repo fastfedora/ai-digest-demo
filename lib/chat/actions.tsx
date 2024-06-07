@@ -1,5 +1,6 @@
 import 'server-only'
 
+import { generateText } from 'ai'
 import {
   createAI,
   createStreamableUI,
@@ -104,6 +105,17 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
       display: systemMessage.value
     }
   }
+}
+
+async function generateAIText(prompt: string) {
+  'use server'
+
+  const { text } = await generateText({
+    model: openai('gpt-4-turbo'),
+    prompt,
+  });
+
+  return text;
 }
 
 async function submitUserMessage(content: string) {
@@ -495,6 +507,7 @@ export type UIState = {
 
 export const AI = createAI<AIState, UIState>({
   actions: {
+    generateAIText,
     submitUserMessage,
     confirmPurchase
   },
