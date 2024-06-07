@@ -8,6 +8,8 @@ import { AttributeSelectorPane } from '@/components/app/profiler/attribute-selec
 import { attributes } from './attributes'
 import { getAttributePrompt } from "./getAttributePrompt";
 
+export const maxDuration = 60;
+
 export default function ProfileTargetPage() {
   const { generateAIText } = useActions()
   const [analysis, setAnalysis] = useState<string>('')
