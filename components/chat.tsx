@@ -6,7 +6,7 @@ import { ChatPanel } from '@/components/chat-panel'
 import { EmptyScreen } from '@/components/empty-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { useEffect, useState } from 'react'
-import { useUIState, useAIState } from 'ai/rsc'
+import { useUIState, useActions, useAIState } from 'ai/rsc'
 import { Message, Session } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
@@ -16,17 +16,38 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
   id?: string
   session?: Session
+  initialMessage?: string
   missingKeys: string[]
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+let lastInitialization = 0;
+
+export function Chat({ id, className, session, initialMessage, missingKeys }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
-  const [messages] = useUIState()
+  const { submitUserMessage } = useActions()
+  const [messages, setMessages] = useUIState()
   const [aiState] = useAIState()
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
+
+  useEffect(() => {
+    const messagesLength = aiState.messages?.length
+
+    // HACK: Debounce initial message to prevent double initialization. [twl 6.Jun.24]
+    if (messagesLength === 0 && initialMessage && Date.now() - lastInitialization > 1000) {
+      lastInitialization = Date.now()
+
+      const initializeChat = async () => {
+        const responseMessage = await submitUserMessage(initialMessage);
+
+        setMessages((currentMessages: any) => [...currentMessages, responseMessage])
+      };
+
+      initializeChat();
+    }
+  } , [aiState, initialMessage, submitUserMessage, setMessages])
 
   useEffect(() => {
     if (session?.user) {
