@@ -2,6 +2,8 @@ import { nanoid } from '@/lib/utils'
 import { AI } from '@/lib/chat/actions'
 import { WorkflowPage } from "@/components/layout/workflow-page"
 
+export const maxDuration = 60;
+
 export const metadata = {
   title: 'AI Digest Demo: Profile Target'
 }

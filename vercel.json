@@ -1,6 +1,6 @@
 {
   "functions": {
-    "**/*": {
+    "lib/chat/*": {
       "maxDuration": 60
     }
   }
