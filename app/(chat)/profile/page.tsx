@@ -29,7 +29,7 @@ export default function ProfileTargetPage() {
   }
 
   return (
-    <div className="flex-1 grid grid-cols-2 gap-6 p-6">
+    <div className="flex-1 grid md:grid-cols-2 gap-6 p-6">
       <Card>
         <h2 className="text-lg font-medium">Facebook Likes</h2>
         <p className="text-sm">Select the pages that your target user likes, then press Analyze at

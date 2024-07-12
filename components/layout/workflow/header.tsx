@@ -11,7 +11,7 @@ export function WorkflowHeader({ currentStep }: { currentStep: number }) {
   const router = useRouter()
 
   return (
-    <div className="bg-[rgb(70,58,203)] text-white py-4 px-6 flex justify-between">
+    <div className="bg-[rgb(70,58,203)] text-white py-4 md:px-6 flex justify-between overflow-x-auto">
       <Button
         className={cn("bg-violet-300 text-black", currentStep === 1 && "invisible")}
         onClick={() => router.push(routes[currentStep - 2])}

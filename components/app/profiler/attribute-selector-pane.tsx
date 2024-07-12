@@ -27,7 +27,7 @@ export function AttributeSelectorPane({
 
   return (
     <>
-      <div className={cn("grid grid-cols-2 gap-2 overflow-auto", className)}>
+      <div className={cn("grid md:grid-cols-2 gap-2 overflow-auto", className)}>
         {attributes.map((attribute) => (
           <CheckboxOption
             key={attribute}
